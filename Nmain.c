@@ -116,10 +116,87 @@ while(str[k] != 0){
 }    
 }
 
+void wait(unsigned int time){
+    unsigned int l;
+    for(l=0;l<time;l++)
+    {
+        asm("REPEAT #295"); // 295x34ns = 10µs
+        asm("NOP");
+    }
+}
 
+void initDCI(void){
+    TRISFbits.TRISF6=1;
+    
+    DCICON2bits.COFSG=0xF;  //16 slots par trame
+    DCICON2bits.WS=0xF;     //16 bit par slots
+    
+    DCICON3=6;      //en fait on ateint 8.2kHz ainsi
+    DCICON1=0x0000;
+    
+    TSCON=0x101;     //0 et 8 en émission
+    RSCON=0x101;    //de meme en reccetpin
+    
+    DCICON2bits.BLEN=0x1;
+    
+    TXBUF0=1;
+    TXBUF1=0x0300;
+    
+    PORTFbits.RF6=1 ;
+    TRISFbits.TRISF6=0;
+    PORTFbits.RF6=0;
+    wait(1);
+    PORTFbits.RF6=1 ;
+    
+    DCICON1bits.DCIEN=1;
+   // --------------------
+    
+    while(DCISTATbits.TMPTY==0); //atente TXBUF vidé
+   // ------------------
+    TXBUF0=1;
+    TXBUF1=0x0413;
+    while(DCISTATbits.TMPTY==0); //atente TXBUF vidé
+    //------------------
+    TXBUF0=1;
+    TXBUF1=0x010A;
+    while(DCISTATbits.TMPTY==0); //atente TXBUF vidé       
+    //------------------
+    TXBUF0=1;
+    TXBUF1=0x0547;
+    while(DCISTATbits.TMPTY==0); //atente TXBUF vidé   
+    //------------------
+    TXBUF0=1;
+    TXBUF1=0x065E;
+    while(DCISTATbits.TMPTY==0); //atente TXBUF vidé
+    //------------------
+    TXBUF0=1;
+    TXBUF1=0x075C;
+    while(DCISTATbits.TMPTY==0); //atente TXBUF vidé 
+    //------------------
+    TXBUF0=1;
+    TXBUF1=0x0900;
+    while(DCISTATbits.TMPTY==0); //atente TXBUF vidé      
+    
+    
+    wait(1000); //attente pour l'etablissement du calibrage
+    
+    //IFS2bits.DCIIF=0;       //raz flag
+    //IEC2bits.DCIIE=1;
 //SPITBF
+}
+    
+    
+       
+    
+    
+    
+
+    
 int main ( void )
 {
+    int i;
+    int A[] = {0x0000,0x278D,0x4B3B,0x678D,0x79BB,0x7FFF,0x79BB,0x678D,0x4B3B,0x278D,0x0000,0xD873,0xB4C5,0x9873,0x8645,0x8001,0x8645,0x9873,0xB4C5,0xD873};
+/*
 TRISDbits.TRISD0=0; // configuration LED1 en sortie
 // initialisation INT1 sur SW1
 INTCON2bits.INT1EP=1; // interruption sur front descendant.
@@ -155,7 +232,20 @@ _INT4IE=1; // autorisation interruption INT4
 
 LCDinit();
 LCDHomeClear();
-LCDWriteString("coucou !");
+LCDWriteString("sinus !");
+*/
 
-while(1);
+
+
+initDCI();
+
+while(1){
+        for(i=0;i<20;i++){
+            TXBUF0=A[i]&~0x0001;
+            TXBUF1=0;
+            while(DCISTATbits.TMPTY==0);
+    }
+}
+
+
 }

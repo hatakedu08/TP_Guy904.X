@@ -4,9 +4,13 @@ Tool Name:
   c:\program files (x86)\microchip\xc16\v1.36\bin\bin\..\bin/elf-ld.exe
 
 Command:
+  -TC:\\Users\\tpeea\\AppData\\Local\\Temp\\tmp00002098.00 \
+  -TC:\\Users\\tpeea\\AppData\\Local\\Temp\\tmp00002098.01 \
+  -TC:\\Users\\tpeea\\AppData\\Local\\Temp\\tmp00002098.02 \
+  -TC:\\Users\\tpeea\\AppData\\Local\\Temp\\tmp00002098.03 \
   -p30F6014 \
   -o \
-  dist/default/production/TP_Guy904.X.production.elf \
+  dist/default/debug/TP_Guy904.X.debug.elf \
   -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/.. \
   -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib \
   -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/PIC24E/gld \
@@ -16,9 +20,12 @@ Command:
   -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33C/gld \
   -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33E/gld \
   -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33F/gld \
-  build/default/production/Nmain.o \
+  build/default/debug/Nmain.o \
   --defsym=__MPLAB_BUILD=1 \
-  -Tp30F6014.gld.00 \
+  --defsym=__MPLAB_DEBUG=1 \
+  --defsym=__DEBUG=1 \
+  --defsym=__MPLAB_DEBUGGER_ICD3=1 \
+  -Tp30F6014.gld.04 \
   --stack=16 \
   --check-sections \
   --data-init \
@@ -30,10 +37,10 @@ Command:
   --stackguard=16 \
   --no-force-link \
   --smart-io \
-  -Map=dist/default/production/TP_Guy904.X.production.map \
+  -Map=dist/default/debug/TP_Guy904.X.debug.map \
   --report-mem \
   --memorysummary \
-  dist/default/production/memoryfile.xml \
+  dist/default/debug/memoryfile.xml \
   -start-group \
   --library=lega-pic30-elf \
   --library=m-elf \
@@ -80,17 +87,21 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100               0x17c           0x23a  (570)
 .const                       0x27c                0x28            0x3c  (60)
-.text                        0x2a4               0x188           0x24c  (588)
+.text                        0x2a4               0x186           0x249  (585)
 
-                 Total "program" memory used (bytes):          0x4c2  (1218) <1%
+                 Total "program" memory used (bytes):          0x4bf  (1215) <1%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
+reserve_data_0x800           0x800                0x20            0x20  (32)
+reserve_data_0x820           0x820                 0x2             0x2  (2)
+reserve_data_0x822           0x822                 0x2             0x2  (2)
+reserve_data_0x824           0x824                0x2c            0x2c  (44)
 
-                 Total "data" memory used (bytes):              0  (0) 
+                 Total "data" memory used (bytes):           0x50  (80) <1%
 
 
 Dynamic Memory Usage
@@ -98,9 +109,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x800                              0x2000  (8192)
+stack                        0x850                              0x1fb0  (8112)
 
-                 Maximum dynamic memory (bytes):         0x2000  (8192)
+                 Maximum dynamic memory (bytes):         0x1fb0  (8112)
 
 
 External Symbols in Program Memory (by address):
@@ -120,7 +131,7 @@ External Symbols in Program Memory (by address):
                   0x0002f6                  _LCDWriteString
                   0x00031c                  _wait
                   0x000338                  _initDCI
-                  0x0003f8                  _main
+                  0x0003f6                  _main
                   0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
@@ -140,7 +151,7 @@ External Symbols in Program Memory (by name):
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
                   0x000338                  _initDCI
-                  0x0003f8                  _main
+                  0x0003f6                  _main
                   0x00031c                  _wait
 
 Memory Configuration
@@ -168,8 +179,31 @@ FICD             0xf8000c           0x000002
 
 Linker script and memory map
 
-LOAD build/default/production/Nmain.o
+
+reserve_data_0x800
+                    0x0800         0x20
+                    0x0820                  . = 0x20
+ *fill*             0x0800         0x2000
+
+reserve_data_0x820
+                    0x0820          0x2
+                    0x0822                  . = 0x2
+ *fill*             0x0820          0x200
+
+reserve_data_0x822
+                    0x0822          0x2
+                    0x0824                  . = 0x2
+ *fill*             0x0822          0x200
+
+reserve_data_0x824
+                    0x0824         0x2c
+                    0x0850                  . = 0x2c
+ *fill*             0x0824         0x2c00
+LOAD build/default/debug/Nmain.o
                     0x0001                  __MPLAB_BUILD = 0x1
+                    0x0001                  __MPLAB_DEBUG = 0x1
+                    0x0001                  __DEBUG = 0x1
+                    0x0001                  __MPLAB_DEBUGGER_ICD3 = 0x1
 LOAD p30F6014
 LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libfx-elf.a
                     0x8005c0                  __FUID0 = 0x8005c0
@@ -209,7 +243,7 @@ LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libfx-elf.a
  *(.user_init)
  *(.handle)
  *(.isr*)
- .isr.text        0x0001c8         0xae build/default/production/Nmain.o
+ .isr.text        0x0001c8         0xae build/default/debug/Nmain.o
                   0x0001c8                  __INT1Interrupt
                   0x0001f2                  __INT2Interrupt
                   0x00021e                  __INT3Interrupt
@@ -257,7 +291,7 @@ __RESERVED2
 
 __FGS             0xf8000a          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf8000a          0x2 /CW/_FGSà´Ô
+ __FGS.sec        0xf8000a          0x2 /CW/_FGSxIñ
                   0xf8000a                  __FGS.sec
 
 __FICD
@@ -272,26 +306,26 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x13ff
+.debug_info       0x000000       0x1302
  *(.debug_info)
- .debug_info      0x000000       0x13ff build/default/production/Nmain.o
+ .debug_info      0x000000       0x1302 build/default/debug/Nmain.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x143
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x143 build/default/production/Nmain.o
+ .debug_abbrev    0x000000        0x143 build/default/debug/Nmain.o
 
-.debug_line       0x000000        0x15c
+.debug_line       0x000000        0x15b
  *(.debug_line)
- .debug_line      0x000000        0x15c build/default/production/Nmain.o
+ .debug_line      0x000000        0x15b build/default/debug/Nmain.o
 
 .debug_frame      0x000000        0x19c
  *(.debug_frame)
- .debug_frame     0x000000        0x19c build/default/production/Nmain.o
+ .debug_frame     0x000000        0x19c build/default/debug/Nmain.o
 
-.debug_str        0x000000         0x89
+.debug_str        0x000000         0x80
  *(.debug_str)
- .debug_str       0x000000         0x89 build/default/production/Nmain.o
+ .debug_str       0x000000         0x80 build/default/debug/Nmain.o
 
 .debug_loc
  *(.debug_loc)
@@ -303,7 +337,7 @@ userdata
                   0x000000         0xb8
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0xb8 build/default/production/Nmain.o
+                  0x000000         0xb8 build/default/debug/Nmain.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -311,7 +345,7 @@ userdata
 .debug_aranges    0x000000         0x18
  *(.debug_aranges)
  .debug_aranges
-                  0x000000         0x18 build/default/production/Nmain.o
+                  0x000000         0x18 build/default/debug/Nmain.o
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -1315,67 +1349,67 @@ LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30
 LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
-OUTPUT(dist/default/production/TP_Guy904.X.production.elf elf32-pic30)
-LOAD /CW/_FGSà´Ô
+OUTPUT(dist/default/debug/TP_Guy904.X.debug.elf elf32-pic30)
+LOAD /CW/_FGSxIñ
 LOAD default_isr
 
 .debug_pubtypes
-                  0x000018        0x1c0
+                  0x000018        0x1a3
  .debug_pubtypes
-                  0x000018        0x1c0 build/default/production/Nmain.o
+                  0x000018        0x1a3 build/default/debug/Nmain.o
 
 __c30_signature
-                  0x0001d8         0x12
+                  0x0001bb         0x12
  __c30_signature
-                  0x0001d8          0x6 build/default/production/Nmain.o
+                  0x0001bb          0x6 build/default/debug/Nmain.o
  __c30_signature
-                  0x0001de          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+                  0x0001c1          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x0001e4          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+                  0x0001c7          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
 
 .config_ICS       0xf8000c          0x2
- .config_ICS      0xf8000c          0x2 build/default/production/Nmain.o
+ .config_ICS      0xf8000c          0x2 build/default/debug/Nmain.o
 
 .config_MCLRE     0xf80004          0x2
- .config_MCLRE    0xf80004          0x2 build/default/production/Nmain.o
+ .config_MCLRE    0xf80004          0x2 build/default/debug/Nmain.o
 
 .config_WDT       0xf80002          0x2
- .config_WDT      0xf80002          0x2 build/default/production/Nmain.o
+ .config_WDT      0xf80002          0x2 build/default/debug/Nmain.o
 
 .config_FCKSMEN
                   0xf80000          0x2
  .config_FCKSMEN
-                  0xf80000          0x2 build/default/production/Nmain.o
+                  0xf80000          0x2 build/default/debug/Nmain.o
 
 .ivt._INT1Interrupt
                   0x000034          0x2
  .ivt._INT1Interrupt
-                  0x000034          0x2 build/default/production/Nmain.o
+                  0x000034          0x2 build/default/debug/Nmain.o
 
 .ivt._INT2Interrupt
                   0x000042          0x2
  .ivt._INT2Interrupt
-                  0x000042          0x2 build/default/production/Nmain.o
+                  0x000042          0x2 build/default/debug/Nmain.o
 
 .ivt._INT3Interrupt
                   0x00005c          0x2
  .ivt._INT3Interrupt
-                  0x00005c          0x2 build/default/production/Nmain.o
+                  0x00005c          0x2 build/default/debug/Nmain.o
 
 .ivt._INT4Interrupt
                   0x00005e          0x2
  .ivt._INT4Interrupt
-                  0x00005e          0x2 build/default/production/Nmain.o
+                  0x00005e          0x2 build/default/debug/Nmain.o
 
 .const              0x827c         0x28 load address 0x00027c  
- .const             0x827c         0x28 build/default/production/Nmain.o
+ .const             0x827c         0x28 build/default/debug/Nmain.o
 
-.text             0x0002a4        0x188
- .text            0x0002a4        0x188 build/default/production/Nmain.o
+.text             0x0002a4        0x186
+ .text            0x0002a4        0x186 build/default/debug/Nmain.o
                   0x0002a4                  _LCDinit
                   0x0002dc                  _LCDgoto
                   0x0002e6                  _LCDWriteChar
                   0x0002f6                  _LCDWriteString
                   0x00031c                  _wait
                   0x000338                  _initDCI
-                  0x0003f8                  _main
+                  0x0003f6                  _main
