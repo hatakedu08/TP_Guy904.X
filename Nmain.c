@@ -79,6 +79,10 @@ _INT4IF=0; // acquittement FLAG
  * 
  * 
  * */
+
+
+
+
 void LCDinit(void){
     //config SPIxCON
     _LATG9 = 0;
@@ -180,23 +184,35 @@ void initDCI(void){
     
     wait(1000); //attente pour l'etablissement du calibrage
     
-    //IFS2bits.DCIIF=0;       //raz flag
-    //IEC2bits.DCIIE=1;
+    IFS2bits.DCIIF=0;       //raz flag
+    IEC2bits.DCIIE=1;
+    
+    
+    
 //SPITBF
 }
     
-    
-       
-    
-    
-    
+ int i=0;
+ int A[] = {0x0000,0x278D,0x4B3B,0x678D,0x79BB,0x7FFF,0x79BB,0x678D,0x4B3B,0x278D,0x0000,0xD873,0xB4C5,0x9873,0x8645,0x8001,0x8645,0x9873,0xB4C5,0xD873};
+ int vol=0;
+   
+ void __attribute__((interrupt,auto_psv)) _DCIInterrupt(void){
+     TXBUF0=A[i]&~0x0001;
+     TXBUF1=0;
+     while(DCISTATbits.TMPTY==0); 
+     
+     i=i+1;
+     if (i==20){
+         i=0;
+     }
+}
+ 
 
-    
-int main ( void )
+ main ( void )
 {
-    int i;
-    int A[] = {0x0000,0x278D,0x4B3B,0x678D,0x79BB,0x7FFF,0x79BB,0x678D,0x4B3B,0x278D,0x0000,0xD873,0xB4C5,0x9873,0x8645,0x8001,0x8645,0x9873,0xB4C5,0xD873};
-/*
+     
+    
+/* pilotage des led par les SW
 TRISDbits.TRISD0=0; // configuration LED1 en sortie
 // initialisation INT1 sur SW1
 INTCON2bits.INT1EP=1; // interruption sur front descendant.
@@ -226,26 +242,22 @@ _INT4IF=0; // raz FLAG
 _INT4IE=1; // autorisation interruption INT4
 
 
-
-
-
-
 LCDinit();
 LCDHomeClear();
 LCDWriteString("sinus !");
 */
+    
+//initialisation interruption DCI
+    
 
-
-
+    
 initDCI();
-
-while(1){
-        for(i=0;i<20;i++){
-            TXBUF0=A[i]&~0x0001;
-            TXBUF1=0;
-            while(DCISTATbits.TMPTY==0);
-    }
-}
-
-
-}
+while(1){       
+    if ( (_INT1EP=1) ){
+        vol=1;
+        }
+    if ( (_INT4EP=1) ){
+        vol=1;
+        }   
+        }
+ }
