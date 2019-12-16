@@ -47,6 +47,8 @@
 #define LCDHomeReset()  LCDWriteCmd(RESET)
 #define LCDClear()      LCDWriteCmd(CLEAR)
 
+int VolPlus;
+int VolMoins;
 
 
 /*
@@ -56,12 +58,15 @@
 void __attribute__((interrupt,auto_psv)) _INT1Interrupt(void)
 {
 PORTDbits.RD0=~PORTDbits.RD0;
-IFS1bits.INT1IF=0; // acquittement FLAG
+VolPlus=1;
+_INT1IF=0; // acquittement FLAG
 }
 void __attribute__((interrupt,auto_psv)) _INT2Interrupt(void)
 {
 PORTDbits.RD1=~PORTDbits.RD1;
-IFS1bits.INT2IF=0; // acquittement FLAG
+VolMoins=1;
+_INT2IF=0; // acquittement FLAG
+
 }
 void __attribute__((interrupt,auto_psv)) _INT3Interrupt(void)
 {
@@ -128,18 +133,53 @@ void wait(unsigned int time){
         asm("NOP");
     }
 }
+void initBouton(void){
+    // pilotage des led par les SW
+TRISDbits.TRISD0=0; // configuration LED1 en sortie
+// initialisation INT1 sur SW1
+INTCON2bits.INT1EP=1; // interruption sur front descendant.
+IPC4bits.INT1IP=1; // priorit´e 1
+IFS1bits.INT1IF=0; // raz FLAG
+IEC1bits.INT1IE=1; // autorisation interruption INT1
+
+TRISDbits.TRISD1=0; // configuration LED2 en sortie
+// initialisation INT2 sur SW2
+INTCON2bits.INT2EP=1; // interruption sur front descendant.
+_INT2IP=1; // priorit´e 1
+IFS1bits.INT2IF=0; // raz FLAG
+IEC1bits.INT2IE=1; // autorisation interruption INT2
+/*
+TRISDbits.TRISD2=0; // configuration LED3 en sortie
+// initialisation INT3 sur SW3
+INTCON2bits.INT3EP=1; // interruption sur front descendant.
+_INT3IP=1; // priorit´e 1
+_INT3IF=0; // raz FLAG
+_INT3IE=1; // autorisation interruption INT3
+
+TRISDbits.TRISD3=0; // configuration LED4 en sortie
+// initialisation INT4 sur SW4
+INTCON2bits.INT4EP=1; // interruption sur front descendant.
+_INT4IP=1; // priorit´e 1
+_INT4IF=0; // raz FLAG
+_INT4IE=1; // autorisation interruption INT4
+*/
+}
+
 
 void initDCI(void){
     TRISFbits.TRISF6=1;
-    
     DCICON2bits.COFSG=0xF;  //16 slots par trame
     DCICON2bits.WS=0xF;     //16 bit par slots
-    
     DCICON3=6;      //en fait on ateint 8.2kHz ainsi
     DCICON1=0x0000;
+
+    
     
     TSCON=0x101;     //0 et 8 en émission
-    RSCON=0x101;    //de meme en reccetpin
+    RSCON=0x101;    //de meme en recetpin
+    
+
+
     
     DCICON2bits.BLEN=0x1;
     
@@ -151,10 +191,11 @@ void initDCI(void){
     PORTFbits.RF6=0;
     wait(1);
     PORTFbits.RF6=1 ;
-    
+  
     DCICON1bits.DCIEN=1;
    // --------------------
     
+
     while(DCISTATbits.TMPTY==0); //atente TXBUF vidé
    // ------------------
     TXBUF0=1;
@@ -165,6 +206,7 @@ void initDCI(void){
     TXBUF1=0x010A;
     while(DCISTATbits.TMPTY==0); //atente TXBUF vidé       
     //------------------
+
     TXBUF0=1;
     TXBUF1=0x0547;
     while(DCISTATbits.TMPTY==0); //atente TXBUF vidé   
@@ -182,82 +224,72 @@ void initDCI(void){
     while(DCISTATbits.TMPTY==0); //atente TXBUF vidé      
     
     
+
     wait(1000); //attente pour l'etablissement du calibrage
     
-    IFS2bits.DCIIF=0;       //raz flag
+ 
     IEC2bits.DCIIE=1;
+    IFS2bits.DCIIF=0;       //raz flag
     
     
     
-//SPITBF
+//Nop();
+ 
 }
     
  int i=0;
  int A[] = {0x0000,0x278D,0x4B3B,0x678D,0x79BB,0x7FFF,0x79BB,0x678D,0x4B3B,0x278D,0x0000,0xD873,0xB4C5,0x9873,0x8645,0x8001,0x8645,0x9873,0xB4C5,0xD873};
- int vol=0;
+ int vol=23;
    
- void __attribute__((interrupt,auto_psv)) _DCIInterrupt(void){
-     TXBUF0=A[i]&~0x0001;
-     TXBUF1=0;
+ 
+ 
+
+int main ( void )
+{
+    initBouton();
+ 
+    //initDCI();
+
+
+ 
+    LCDinit();
+    LCDHomeClear();
+    //LCDWriteString("sinus !");
+
+
+while(1){
+   
+ }
+}
+
+void __attribute__((interrupt,auto_psv)) _DCIInterrupt(void){
+     
+     int Commande, Envoi;
+     Envoi=A[i]&~0x0001;
+     Commande=0;
      while(DCISTATbits.TMPTY==0); 
      
      i=i+1;
      if (i==20){
          i=0;
      }
-}
- 
-
- main ( void )
-{
      
-    
-/* pilotage des led par les SW
-TRISDbits.TRISD0=0; // configuration LED1 en sortie
-// initialisation INT1 sur SW1
-INTCON2bits.INT1EP=1; // interruption sur front descendant.
-IPC4bits.INT1IP=1; // priorit´e 1
-IFS1bits.INT1IF=0; // raz FLAG
-IEC1bits.INT1IE=1; // autorisation interruption INT1
-
-TRISDbits.TRISD1=0; // configuration LED2 en sortie
-// initialisation INT2 sur SW2
-INTCON2bits.INT2EP=1; // interruption sur front descendant.
-_INT2IP=1; // priorit´e 1
-IFS1bits.INT2IF=0; // raz FLAG
-IEC1bits.INT2IE=1; // autorisation interruption INT2
-
-TRISDbits.TRISD2=0; // configuration LED3 en sortie
-// initialisation INT3 sur SW3
-INTCON2bits.INT3EP=1; // interruption sur front descendant.
-_INT3IP=1; // priorit´e 1
-_INT3IF=0; // raz FLAG
-_INT3IE=1; // autorisation interruption INT3
-
-TRISDbits.TRISD3=0; // configuration LED4 en sortie
-// initialisation INT4 sur SW4
-INTCON2bits.INT4EP=1; // interruption sur front descendant.
-_INT4IP=1; // priorit´e 1
-_INT4IF=0; // raz FLAG
-_INT4IE=1; // autorisation interruption INT4
-
-
-LCDinit();
-LCDHomeClear();
-LCDWriteString("sinus !");
-*/
-    
-//initialisation interruption DCI
-    
-
-    
-initDCI();
-while(1){       
-    if ( (_INT1EP=1) ){
-        vol=1;
-        }
-    if ( (_INT4EP=1) ){
-        vol=1;
-        }   
-        }
- }
+     
+     if (VolPlus==1){
+         vol=vol+1;
+         Envoi|=1;
+         Commande=0x0700 &(0x00ff +vol)*4;
+         VolPlus=0;
+     }
+     if(VolMoins==1){
+         vol=vol-1;
+         Envoi|=1;
+         Commande=0x0700 &(0x00ff +vol)*4;
+         VolMoins=0;
+        } 
+     
+     TXBUF0=Envoi;
+     TXBUF1=Commande;
+     
+     
+}

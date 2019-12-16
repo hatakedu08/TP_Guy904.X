@@ -1,21 +1,27 @@
-Microchip Technology Inc, v1.36 (A)
+Microchip Technology Inc, v1.34 (A)
 
 Tool Name:
-  c:\program files (x86)\microchip\xc16\v1.36\bin\bin\..\bin/elf-ld.exe
+  c:\program files (x86)\microchip\xc16\v1.34\bin\bin\..\bin/elf-ld.exe
 
 Command:
   -p30F6014 \
   -o \
   dist/default/production/TP_Guy904.X.production.elf \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/.. \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/PIC24E/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/PIC24F/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/PIC24H/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/dsPIC30F/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33C/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33E/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33F/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/.. \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib/PIC24E \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/PIC24E/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib/PIC24F \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/PIC24F/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib/PIC24H \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/PIC24H/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib/dsPIC30F \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/dsPIC30F/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/dsPIC33C/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib/dsPIC33E \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/dsPIC33E/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib/dsPIC33F \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/dsPIC33F/gld \
   build/default/production/Nmain.o \
   --defsym=__MPLAB_BUILD=1 \
   -Tp30F6014.gld.00 \
@@ -40,15 +46,13 @@ Command:
   --library=lega-c-elf \
   -end-group \
 
-
-Optional library libp30F6014.a not found
 Archive member included because of file (symbol)
 
-c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
                               (__resetPRI)
-c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
-                              c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o) (__data_init_standard)
-c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+                              c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o) (__data_init_standard)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
                               (__crt_start_mode_normal)
 
 
@@ -72,25 +76,28 @@ CodeGuard EEPROM Memory:
   boot    (none)
 
 
-xc16-ld 1.36 (A)
+xc16-ld 1.34 (A)
 
 "program" Memory  [Origin = 0x100, Length = 0x17f00]
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x100               0x17c           0x23a  (570)
-.const                       0x27c                0x28            0x3c  (60)
-.text                        0x2a4               0x188           0x24c  (588)
+.text                        0x100               0x21e           0x32d  (813)
+.text                        0x31e               0x18c           0x252  (594)
+.dinit                       0x4aa                0x32            0x4b  (75)
 
-                 Total "program" memory used (bytes):          0x4c2  (1218) <1%
+                 Total "program" memory used (bytes):          0x5ca  (1482) 1%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
+.nbss                        0x800                   0             0x6  (6)
+.ndata                       0x806                   0             0x2  (2)
+.data                        0x808                   0            0x28  (40)
 
-                 Total "data" memory used (bytes):              0  (0) 
+                 Total "data" memory used (bytes):           0x30  (48) <1%
 
 
 Dynamic Memory Usage
@@ -98,10 +105,26 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x800                              0x2000  (8192)
+stack                        0x830                              0x1fd0  (8144)
 
-                 Maximum dynamic memory (bytes):         0x2000  (8192)
+                 Maximum dynamic memory (bytes):         0x1fd0  (8144)
 
+
+External Symbols in Data Memory (by address):
+
+                    0x0800                  _VolPlus
+                    0x0802                  _VolMoins
+                    0x0804                  _i
+                    0x0806                  _vol
+                    0x0808                  _A
+
+External Symbols in Data Memory (by name):
+
+                    0x0808                  _A
+                    0x0802                  _VolMoins
+                    0x0800                  _VolPlus
+                    0x0804                  _i
+                    0x0806                  _vol
 
 External Symbols in Program Memory (by address):
 
@@ -110,38 +133,42 @@ External Symbols in Program Memory (by address):
                   0x000152                  __data_init
                   0x000152                  __data_init_standard
                   0x0001c8                  __INT1Interrupt
-                  0x0001f2                  __INT2Interrupt
-                  0x00021e                  __INT3Interrupt
-                  0x00024a                  __INT4Interrupt
-                  0x000276                  __DefaultInterrupt
-                  0x0002a4                  _LCDinit
-                  0x0002dc                  _LCDgoto
-                  0x0002e6                  _LCDWriteChar
-                  0x0002f6                  _LCDWriteString
-                  0x00031c                  _wait
-                  0x000338                  _initDCI
-                  0x0003f8                  _main
+                  0x0001fc                  __INT2Interrupt
+                  0x000232                  __INT3Interrupt
+                  0x000264                  __INT4Interrupt
+                  0x000296                  __DCIInterrupt
+                  0x000318                  __DefaultInterrupt
+                  0x00031e                  _LCDinit
+                  0x000356                  _LCDgoto
+                  0x000360                  _LCDWriteChar
+                  0x000370                  _LCDWriteString
+                  0x000396                  _wait
+                  0x0003b2                  _initBouton
+                  0x0003dc                  _initDCI
+                  0x00049e                  _main
                   0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x0002e6                  _LCDWriteChar
-                  0x0002f6                  _LCDWriteString
-                  0x0002dc                  _LCDgoto
-                  0x0002a4                  _LCDinit
-                  0x000276                  __DefaultInterrupt
+                  0x000360                  _LCDWriteChar
+                  0x000370                  _LCDWriteString
+                  0x000356                  _LCDgoto
+                  0x00031e                  _LCDinit
+                  0x000296                  __DCIInterrupt
+                  0x000318                  __DefaultInterrupt
                   0xf8000a                  __FGS.sec
                   0x0001c8                  __INT1Interrupt
-                  0x0001f2                  __INT2Interrupt
-                  0x00021e                  __INT3Interrupt
-                  0x00024a                  __INT4Interrupt
+                  0x0001fc                  __INT2Interrupt
+                  0x000232                  __INT3Interrupt
+                  0x000264                  __INT4Interrupt
                   0x000152                  __data_init
                   0x000152                  __data_init_standard
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
-                  0x000338                  _initDCI
-                  0x0003f8                  _main
-                  0x00031c                  _wait
+                  0x0003b2                  _initBouton
+                  0x0003dc                  _initDCI
+                  0x00049e                  _main
+                  0x000396                  _wait
 
 Memory Configuration
 
@@ -170,8 +197,8 @@ Linker script and memory map
 
 LOAD build/default/production/Nmain.o
                     0x0001                  __MPLAB_BUILD = 0x1
-LOAD p30F6014
-LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libfx-elf.a
+LOAD c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib/dsPIC30F\libp30F6014-elf.a
+LOAD c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libfx-elf.a
                     0x8005c0                  __FUID0 = 0x8005c0
                     0x8005c2                  __FUID1 = 0x8005c2
                     0x8005c4                  __FUID2 = 0x8005c4
@@ -197,33 +224,34 @@ LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000100        0x17c
+.text             0x000100        0x21e
  *(.init)
- .init            0x000100         0x4c c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+ .init            0x000100         0x4c c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
                   0x000100                  __resetPRI
                   0x000100                  __reset
                   0x00013c                  __psv_init
- .init            0x00014c         0x7c c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+ .init            0x00014c         0x7c c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
                   0x000152                  __data_init_standard
                   0x000152                  __data_init
  *(.user_init)
  *(.handle)
  *(.isr*)
- .isr.text        0x0001c8         0xae build/default/production/Nmain.o
+ .isr.text        0x0001c8        0x150 build/default/production/Nmain.o
                   0x0001c8                  __INT1Interrupt
-                  0x0001f2                  __INT2Interrupt
-                  0x00021e                  __INT3Interrupt
-                  0x00024a                  __INT4Interrupt
- .isr             0x000276          0x4 default_isr
-                  0x000276                  __DefaultInterrupt
+                  0x0001fc                  __INT2Interrupt
+                  0x000232                  __INT3Interrupt
+                  0x000264                  __INT4Interrupt
+                  0x000296                  __DCIInterrupt
+ .isr             0x000318          0x4 default_isr
+                  0x000318                  __DefaultInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x00027a          0x2 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
-                  0x00027a                  __crt_start_mode
-                  0x00027a                  __crt_start_mode_normal
+                  0x00031c          0x2 c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
+                  0x00031c                  __crt_start_mode
+                  0x00031c                  __crt_start_mode_normal
 
 usercode
  *(usercode)
@@ -257,7 +285,7 @@ __RESERVED2
 
 __FGS             0xf8000a          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf8000a          0x2 /CW/_FGSà´Ô
+ __FGS.sec        0xf8000a          0x2 /CW/_FGS`Uø
                   0xf8000a                  __FGS.sec
 
 __FICD
@@ -272,26 +300,26 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x13ff
+.debug_info       0x000000       0x1c69
  *(.debug_info)
- .debug_info      0x000000       0x13ff build/default/production/Nmain.o
+ .debug_info      0x000000       0x1c69 build/default/production/Nmain.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x143
+.debug_abbrev     0x000000        0x1ab
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x143 build/default/production/Nmain.o
+ .debug_abbrev    0x000000        0x1ab build/default/production/Nmain.o
 
-.debug_line       0x000000        0x15c
+.debug_line       0x000000        0x17e
  *(.debug_line)
- .debug_line      0x000000        0x15c build/default/production/Nmain.o
+ .debug_line      0x000000        0x17e build/default/production/Nmain.o
 
-.debug_frame      0x000000        0x19c
+.debug_frame      0x000000        0x202
  *(.debug_frame)
- .debug_frame     0x000000        0x19c build/default/production/Nmain.o
+ .debug_frame     0x000000        0x202 build/default/production/Nmain.o
 
-.debug_str        0x000000         0x89
+.debug_str        0x000000         0xc3
  *(.debug_str)
- .debug_str       0x000000         0x89 build/default/production/Nmain.o
+ .debug_str       0x000000         0xc3 build/default/production/Nmain.o
 
 .debug_loc
  *(.debug_loc)
@@ -300,10 +328,10 @@ userdata
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000         0xb8
+                  0x000000        0x106
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0xb8 build/default/production/Nmain.o
+                  0x000000        0x106 build/default/production/Nmain.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -1311,27 +1339,42 @@ userdata
                     0x0216                  UART2 = 0x216
                     0x0216                  _UART2 = 0x216
 START GROUP
-LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a
-LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libm-elf.a
-LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-c-elf.a
+LOAD c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\liblega-pic30-elf.a
+LOAD c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a
+LOAD c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/TP_Guy904.X.production.elf elf32-pic30)
-LOAD /CW/_FGSà´Ô
+LOAD /CW/_FGS`Uø
 LOAD default_isr
+LOAD data_init
 
 .debug_pubtypes
-                  0x000018        0x1c0
+                  0x000018        0x259
  .debug_pubtypes
-                  0x000018        0x1c0 build/default/production/Nmain.o
+                  0x000018        0x259 build/default/production/Nmain.o
 
 __c30_signature
-                  0x0001d8         0x12
+                  0x000271         0x12
  __c30_signature
-                  0x0001d8          0x6 build/default/production/Nmain.o
+                  0x000271          0x6 build/default/production/Nmain.o
  __c30_signature
-                  0x0001de          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+                  0x000277          0x6 c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x0001e4          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+                  0x00027d          0x6 c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+
+.nbss               0x0800          0x6
+ .nbss              0x0800          0x6 build/default/production/Nmain.o
+                    0x0800                  _VolPlus
+                    0x0802                  _VolMoins
+                    0x0804                  _i
+
+.ndata              0x0806          0x2
+ .ndata             0x0806          0x2 build/default/production/Nmain.o
+                    0x0806                  _vol
+
+.data               0x0808         0x28
+ .data              0x0808         0x28 build/default/production/Nmain.o
+                    0x0808                  _A
 
 .config_ICS       0xf8000c          0x2
  .config_ICS      0xf8000c          0x2 build/default/production/Nmain.o
@@ -1367,15 +1410,21 @@ __c30_signature
  .ivt._INT4Interrupt
                   0x00005e          0x2 build/default/production/Nmain.o
 
-.const              0x827c         0x28 load address 0x00027c  
- .const             0x827c         0x28 build/default/production/Nmain.o
+.ivt._DCIInterrupt
+                  0x000066          0x2
+ .ivt._DCIInterrupt
+                  0x000066          0x2 build/default/production/Nmain.o
 
-.text             0x0002a4        0x188
- .text            0x0002a4        0x188 build/default/production/Nmain.o
-                  0x0002a4                  _LCDinit
-                  0x0002dc                  _LCDgoto
-                  0x0002e6                  _LCDWriteChar
-                  0x0002f6                  _LCDWriteString
-                  0x00031c                  _wait
-                  0x000338                  _initDCI
-                  0x0003f8                  _main
+.text             0x00031e        0x18c
+ .text            0x00031e        0x18c build/default/production/Nmain.o
+                  0x00031e                  _LCDinit
+                  0x000356                  _LCDgoto
+                  0x000360                  _LCDWriteChar
+                  0x000370                  _LCDWriteString
+                  0x000396                  _wait
+                  0x0003b2                  _initBouton
+                  0x0003dc                  _initDCI
+                  0x00049e                  _main
+
+.dinit            0x0004aa         0x32
+ .dinit           0x0004aa         0x32 data_init
