@@ -1,6 +1,6 @@
 /* 
  * File:   Nmain.c
- * Author: tpeea
+ * Author: Dumont Guillaume
  *
  * Created on 16 octobre 2019, 16:47
  */
@@ -51,9 +51,12 @@ int VolPlus;
 int VolMoins;
 
 
-/*
- * 
- */
+///////////////////////////////////////////////////////
+//////                                           //////
+//////  Interruption sur les Interrupteurs SW1-4 //////
+//////                                           //////
+///////////////////////////////////////////////////////
+
 //Commutation de LED1/2/3/4 (RD0/1/2/3) sur appui SW1/2/3/4(INT1/2/3)
 void __attribute__((interrupt,auto_psv)) _INT1Interrupt(void)
 {
@@ -79,28 +82,31 @@ PORTDbits.RD3=~PORTDbits.RD3;
 _INT4IF=0; // acquittement FLAG
 }
 
-/**
- * 
- * 
- * 
- * */
 
-
-
+///////////////////////////////////////////////////////
+//////                                           //////
+//////  Initialisation du LCD                    //////
+//////                                           //////
+///////////////////////////////////////////////////////
 
 void LCDinit(void){
     //config SPIxCON
     _LATG9 = 0;
     TRISGbits.TRISG9=0;
-    
     SPI2CONbits.PPRE=1;
     SPI2CONbits.SPRE=7;
     SPI2CONbits.CKE=0;
     SPI2CONbits.CKP=0;
     SPI2CONbits.MSTEN=1;
-    
     SPI2STATbits.SPIEN=1;
 }
+
+
+///////////////////////////////////////////////////////
+//////                                           //////
+//////       Programmation de l'écriture         //////
+//////          sur le LCD                       //////
+///////////////////////////////////////////////////////
 
 static void LCDWriteCmd(char c)
 {   SPI2BUF = c;
@@ -125,6 +131,13 @@ while(str[k] != 0){
 }    
 }
 
+///////////////////////////////////////////////////////
+//////                                           //////
+//////  Programme d'attente                      //////
+//////                                           //////
+///////////////////////////////////////////////////////
+
+
 void wait(unsigned int time){
     unsigned int l;
     for(l=0;l<time;l++)
@@ -133,6 +146,13 @@ void wait(unsigned int time){
         asm("NOP");
     }
 }
+
+///////////////////////////////////////////////////////
+//////                                           //////
+//////  Initialisation des interrupteurs         //////
+//////                                           //////
+///////////////////////////////////////////////////////
+
 void initBouton(void){
     // pilotage des led par les SW
 TRISDbits.TRISD0=0; // configuration LED1 en sortie
@@ -165,6 +185,12 @@ _INT4IE=1; // autorisation interruption INT4
 */
 }
 
+///////////////////////////////////////////////////////
+//////                                           //////
+//////         Initialisation du DCI             //////
+//////                                           //////
+///////////////////////////////////////////////////////
+
 
 void initDCI(void){
     TRISFbits.TRISF6=1;
@@ -173,14 +199,9 @@ void initDCI(void){
     DCICON3=6;      //en fait on ateint 8.2kHz ainsi
     DCICON1=0x0000;
 
-    
-    
     TSCON=0x101;     //0 et 8 en émission
     RSCON=0x101;    //de meme en recetpin
-    
 
-
-    
     DCICON2bits.BLEN=0x1;
     
     TXBUF0=1;
@@ -194,8 +215,6 @@ void initDCI(void){
   
     DCICON1bits.DCIEN=1;
    // --------------------
-    
-
     while(DCISTATbits.TMPTY==0); //atente TXBUF vidé
    // ------------------
     TXBUF0=1;
@@ -222,74 +241,74 @@ void initDCI(void){
     TXBUF0=1;
     TXBUF1=0x0900;
     while(DCISTATbits.TMPTY==0); //atente TXBUF vidé      
-    
-    
 
     wait(1000); //attente pour l'etablissement du calibrage
-    
- 
+
     IEC2bits.DCIIE=1;
     IFS2bits.DCIIF=0;       //raz flag
-    
-    
-    
-//Nop();
- 
 }
     
  int i=0;
  int A[] = {0x0000,0x278D,0x4B3B,0x678D,0x79BB,0x7FFF,0x79BB,0x678D,0x4B3B,0x278D,0x0000,0xD873,0xB4C5,0x9873,0x8645,0x8001,0x8645,0x9873,0xB4C5,0xD873};
- int vol=23;
-   
+ int vol;
+
  
- 
+ ///////////////////////////////////////////////////////
+//////                                            //////
+//////  Programme Principal                       //////
+//////                                            //////
+////////////////////////////////////////////////////////
 
 int main ( void )
 {
+    vol=23;
     initBouton();
  
-    //initDCI();
+    initDCI();
 
-
- 
     LCDinit();
     LCDHomeClear();
     //LCDWriteString("sinus !");
 
-
 while(1){
-   
+    LCDWriteString(vol);
+    LCDHomeClear();
  }
 }
+///////////////////////////////////////////////////////
+//////                                           //////
+//////     définition de l'interrption           //////
+//////                                           //////
+///////////////////////////////////////////////////////
 
+int Commande, Envoi;
 void __attribute__((interrupt,auto_psv)) _DCIInterrupt(void){
      
-     int Commande, Envoi;
+     
      Envoi=A[i]&~0x0001;
      Commande=0;
      while(DCISTATbits.TMPTY==0); 
      
-     i=i+1;
-     if (i==20){
-         i=0;
-     }
+     i=(i+1)%20;
+   
      
      
      if (VolPlus==1){
-         vol=vol+1;
+         vol++;
          Envoi|=1;
-         Commande=0x0700 &(0x00ff +vol)*4;
+         Commande=0x0700+(0x00ff&vol)*4;
          VolPlus=0;
      }
      if(VolMoins==1){
-         vol=vol-1;
+         vol--;
          Envoi|=1;
-         Commande=0x0700 &(0x00ff +vol)*4;
+         Commande=0x0700+(0x00ff&vol)*4;
          VolMoins=0;
         } 
      
      TXBUF0=Envoi;
      TXBUF1=Commande;
      
+     IFS2bits.DCIIF=0; //aquitement flag     
      
 }

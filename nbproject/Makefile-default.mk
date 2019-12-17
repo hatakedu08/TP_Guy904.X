@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=Nmain.c
+SOURCEFILES_QUOTED_IF_SPACED=Nmain.c Assembleur.s
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/Nmain.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/Nmain.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/Nmain.o ${OBJECTDIR}/Assembleur.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/Nmain.o.d ${OBJECTDIR}/Assembleur.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/Nmain.o
+OBJECTFILES=${OBJECTDIR}/Nmain.o ${OBJECTDIR}/Assembleur.o
 
 # Source Files
-SOURCEFILES=Nmain.c
+SOURCEFILES=Nmain.c Assembleur.s
 
 
 CFLAGS=
@@ -114,7 +114,21 @@ endif
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: assemble
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
+${OBJECTDIR}/Assembleur.o: Assembleur.s  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/Assembleur.o.d 
+	@${RM} ${OBJECTDIR}/Assembleur.o 
+	${MP_CC} $(MP_EXTRA_AS_PRE)  Assembleur.s  -o ${OBJECTDIR}/Assembleur.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  -Wa,-MD,"${OBJECTDIR}/Assembleur.o.d",--defsym=__MPLAB_BUILD=1,--defsym=__ICD2RAM=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_ICD3=1,-g,--no-relax$(MP_EXTRA_AS_POST)
+	@${FIXDEPS} "${OBJECTDIR}/Assembleur.o.d"  $(SILENT)  -rsi ${MP_CC_DIR}../  
+	
 else
+${OBJECTDIR}/Assembleur.o: Assembleur.s  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/Assembleur.o.d 
+	@${RM} ${OBJECTDIR}/Assembleur.o 
+	${MP_CC} $(MP_EXTRA_AS_PRE)  Assembleur.s  -o ${OBJECTDIR}/Assembleur.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  -Wa,-MD,"${OBJECTDIR}/Assembleur.o.d",--defsym=__MPLAB_BUILD=1,-g,--no-relax$(MP_EXTRA_AS_POST)
+	@${FIXDEPS} "${OBJECTDIR}/Assembleur.o.d"  $(SILENT)  -rsi ${MP_CC_DIR}../  
+	
 endif
 
 # ------------------------------------------------------------------------------------
