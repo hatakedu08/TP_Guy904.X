@@ -1,2 +1,3 @@
 build/default/debug/Nmain.o:  \
-Nmain.c 
+Nmain.c  \
+init.h 

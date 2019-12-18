@@ -3,8 +3,8 @@
 ;////// Routine d'interruption DCI //////
 ;//////                            //////
 ;////////////////////////////////////////
-    
-    
+/*    
+    .include "p30f6014.inc"
     __DCIInterrupt
     
     push.d W0 ;//sauvegarde des registres utilisé par la suite 
@@ -18,4 +18,4 @@
     BCLR IFS2
     
 
-
+*/

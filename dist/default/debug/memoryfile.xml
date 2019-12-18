@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <executable name="dist/default/debug/TP_Guy904.X.debug.elf">
+  <executable name="dist/default/debug/TTP_Guy904.X.debug.elf">
     <memory name="data">
       <units>bytes</units>
       <length>8192</length>
@@ -11,8 +11,8 @@
     <memory name="program">
       <units>bytes</units>
       <length>147072</length>
-      <used>1512</used>
-      <free>145560</free>
+      <used>1767</used>
+      <free>145305</free>
     </memory>
   </executable>
 </project>
